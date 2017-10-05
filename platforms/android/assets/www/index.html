@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<!--
+    Copyright (c) 2012-2016 Adobe Systems Incorporated. All rights reserved.
+
+    Licensed to the Apache Software Foundation (ASF) under one
+    or more contributor license agreements.  See the NOTICE file
+    distributed with this work for additional information
+    regarding copyright ownership.  The ASF licenses this file
+    to you under the Apache License, Version 2.0 (the
+    "License"); you may not use this file except in compliance
+    with the License.  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an
+    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+     KIND, either express or implied.  See the License for the
+    specific language governing permissions and limitations
+    under the License.
+-->
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <!-- This is a wide open CSP declaration. To lock this down for production, see below. -->
+    <!-- Good default declaration:
+    * gap: is required only on iOS (when using UIWebView) and is needed for JS->native communication
+    * https://ssl.gstatic.com is required only on Android and is needed for TalkBack to function properly
+    * Disables use of eval() and inline scripts in order to mitigate risk of XSS vulnerabilities. To change this:
+        * Enable inline JS: add 'unsafe-inline' to default-src
+        * Enable eval(): add 'unsafe-eval' to default-src
+    * Create your own at http://cspisawesome.com
+    -->
+    <!-- <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: 'unsafe-inline' https://ssl.gstatic.com; style-src 'self' 'unsafe-inline'; media-src *" /> -->
+    
+     <title>My Diary</title>
+    
+    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
+    <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+
+    <link rel="stylesheet" href="http://cdn.jtsage.com/datebox/1.4.5/jqm-datebox-1.4.5.min.css" />
+    <script type="text/javascript" src="http://cdn.jtsage.com/external/jquery.mousewheel.min.js"></script>
+    <script type="text/javascript" src="http://cdn.jtsage.com/datebox/1.4.5/jqm-datebox-1.4.5.core.min.js"></script>
+    <script type="text/javascript" src="http://cdn.jtsage.com/datebox/1.4.5/jqm-datebox-1.4.5.mode.calbox.min.js"></script>
+    <script type="text/javascript" src="http://cdn.jtsage.com/datebox/1.4.5/jqm-datebox-1.4.5.mode.datebox.min.js"></script>
+    <script type="text/javascript" src="http://cdn.jtsage.com/datebox/i18n/jqm-datebox.lang.utf8.js"></script>
+    <script src="http://cdn.jsdelivr.net/jquery.validation/1.15.1/jquery.validate.min.js"></script> <!-- validate script link -->
+   
+	<style>
+		#listItem{
+			margin: 20px 0 0 20px;
+			background-color: burlywood;
+			border-radius: 20px;
+			overflow-y: scroll;
+			color: white;
+			width: 70%;
+			height: 50%;
+			
+		}
+		
+		#datalist li{
+			margin-left: 30px;
+		}
+		
+		.delete {
+			margin-left: 20px;
+		}
+		
+		h3{
+			text-decoration: underline;
+			margin-left: 10px;
+		}
+	</style>
+</head>
+
+<body>
+        <div data-role="page">      
+            <div data-role="header">
+                <h1>My Diary</h1>
+            </div>
+
+			<div role="main" class="ui-content">
+                <input type="text" id="date" data-role="datebox" data-options='{"mode":"datebox"}'  placeholder="Date" />
+                <input type="text" id="place" placeholder="Place" />
+                <textarea id="description" placeholder="Description"></textarea>
+				
+                
+                <button id="btnsave" class="ui-btn ui-btn-inline">Save</button>
+                <button id="btnclear" class="ui-btn ui-btn-inline">Clear</button>     
+                                
+                <div id="listItem">
+					<h3>List-to-do</h3>
+					<ul id="datalist" data-role="listview"></ul>
+				</div>
+ 			</div>
+
+		    <div data-role="footer">
+			     <h1>Mobile Programming</h1>
+		    </div>	
+        </div>
+  <script type="text/javascript" src="cordova.js"></script>
+    <script type="text/javascript" src="js/index.js"></script>
+    <script type="text/javascript">
+ 		$(document).on("pagecreate", function() {	
+			$(document).on("pagecontainershow", function(){
+				ScaleContentToDevice();        
+			});
+
+			$(window).on("resize orientationchange", function(){
+				ScaleContentToDevice();
+			});
+
+			function ScaleContentToDevice(){
+				scroll(0, 0);
+				var content = $.mobile.getScreenHeight() - $(".ui-header").outerHeight() - $(".ui-footer").outerHeight() - $(".ui-content").outerHeight() + $(".ui-content").height();
+				$(".ui-content").height(content);
+			}
+		});
+
+        app.initialize();
+    </script>
+
+    <style>
+        .listCont {
+            overflow: auto;
+            -webkit-overflow-scrolling: touch;
+            max-height: 350px;
+        }
+    </style>
+</body>
+
+</html>
